@@ -15,3 +15,5 @@ build_log.txt
 /captures
 *.jks
 keystore.properties
+
+/dist/
