@@ -8,29 +8,32 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextIndent
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import com.yumoo.diedang.ui.theme.PixelFont
+import com.yumoo.diedang.ui.theme.LocalStoryFont
+import com.yumoo.diedang.ui.theme.LocalStoryScale
 import kotlinx.coroutines.delay
 
 /** \n\n 分段：与剧本写作约定一致。 */
 fun splitParagraphs(text: String): List<String> =
     text.split("\n\n").map { it.trim('\n') }.filter { it.isNotBlank() }
 
-/** 正文样式（像素字体 + 首行缩进）。 */
+/** 正文样式：字体与字号跟随「设置」里的选择，颜色跟随当前主题。 */
 @Composable
-fun storyTextStyle(lineHeight: TextUnit = 28.sp, indentSize: TextUnit = 32.sp): TextStyle =
-    TextStyle(
-        fontFamily = PixelFont,
-        fontSize = 16.sp,
-        lineHeight = lineHeight,
-        color = Color.White,
-        textIndent = TextIndent(firstLine = indentSize)
+fun storyTextStyle(lineHeight: TextUnit = 28.sp, indentSize: TextUnit = 32.sp): TextStyle {
+    val scale = LocalStoryScale.current
+    return TextStyle(
+        fontFamily = LocalStoryFont.current,
+        fontSize = (16f * scale).sp,
+        lineHeight = lineHeight * scale,
+        color = MaterialTheme.colorScheme.onSurface,
+        textIndent = TextIndent(firstLine = indentSize * scale)
     )
+}
 
 /** 已经读完的段落：整段直接渲染。 */
 @Composable

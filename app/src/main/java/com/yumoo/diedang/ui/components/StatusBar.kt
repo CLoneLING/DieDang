@@ -11,11 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yumoo.diedang.ui.theme.PixelFont
+import com.yumoo.diedang.ui.theme.LocalStoryFont
 
 /** 顶部状态栏：返回键 + 计时 / ∞ + 右侧占位。 */
 @Composable
@@ -28,29 +28,29 @@ fun GameStatusBar(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(Color(0xFF222222), RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
             .padding(horizontal = 4.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         IconButton(onClick = onExit) {
-            Text("←", style = TextStyle(fontFamily = PixelFont, fontSize = 18.sp, color = Color.Gray))
+            Text("←", style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 18.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
         }
         Text(
             text = if (timed) "余 ${formatSeconds(timeLeft)}" else "不限时",
             style = TextStyle(
-                fontFamily = PixelFont,
+                fontFamily = LocalStoryFont.current,
                 fontSize = 14.sp,
                 color = when {
-                    !timed -> Color.Gray
-                    timeLeft <= 30 -> Color(0xFFFF5252)
-                    timeLeft <= 120 -> Color.Yellow
-                    else -> Color.Cyan
+                    !timed -> MaterialTheme.colorScheme.onSurfaceVariant
+                    timeLeft <= 30 -> MaterialTheme.colorScheme.error
+                    timeLeft <= 120 -> MaterialTheme.colorScheme.secondary
+                    else -> MaterialTheme.colorScheme.primary
                 }
             )
         )
         IconButton(onClick = {}, enabled = false) {
-            Text("", style = TextStyle(fontFamily = PixelFont, fontSize = 18.sp))
+            Text("", style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 18.sp))
         }
     }
 }

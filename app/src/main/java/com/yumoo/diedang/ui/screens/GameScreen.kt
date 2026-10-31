@@ -29,7 +29,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,7 +45,7 @@ import com.yumoo.diedang.ui.components.TypewriterParagraph
 import com.yumoo.diedang.ui.components.rememberSoundEffects
 import com.yumoo.diedang.ui.components.splitParagraphs
 import com.yumoo.diedang.ui.components.storyTextStyle
-import com.yumoo.diedang.ui.theme.PixelFont
+import com.yumoo.diedang.ui.theme.LocalStoryFont
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -85,10 +85,10 @@ fun GameScreen(
     val scene = session.currentScene
 
     if (scene == null) {
-        Box(modifier = Modifier.fillMaxSize().background(Color(0xFF1A1A1A)), contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background), contentAlignment = Alignment.Center) {
             Text(
                 "场景加载失败：${state.currentSceneId}",
-                style = TextStyle(fontFamily = PixelFont, fontSize = 14.sp, color = Color.White)
+                style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface)
             )
         }
         return
@@ -165,7 +165,7 @@ fun GameScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF1A1A1A))
+            .background(MaterialTheme.colorScheme.background)
             .padding(8.dp)
     ) {
         GameStatusBar(
@@ -179,7 +179,7 @@ fun GameScreen(
                 .weight(1f)
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
-                .background(Color(0xFF2A2A2A), RoundedCornerShape(8.dp))
+                .background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))
                 .clickable(enabled = !isEnding) { advance() }
         ) {
             Column(
@@ -209,7 +209,7 @@ fun GameScreen(
                     Spacer(Modifier.height(8.dp))
                     Text(
                         if (currentPara < paragraphs.lastIndex) "▸ 点击继续" else "▸ 请选择",
-                        style = TextStyle(fontFamily = PixelFont, fontSize = 12.sp, color = Color.Gray),
+                        style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant),
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
                 }
@@ -226,12 +226,12 @@ fun GameScreen(
                     Button(
                         onClick = { select(option) },
                         modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3700B3)),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(12.dp)
                     ) {
                         Text(
                             option.text,
-                            style = TextStyle(fontFamily = PixelFont, fontSize = 14.sp, color = Color.White),
+                            style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface),
                             textAlign = TextAlign.Start,
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -245,9 +245,9 @@ fun GameScreen(
             Button(
                 onClick = onRestartStory,
                 modifier = Modifier.fillMaxWidth().padding(top = 8.dp).height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFB00020))
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
             ) {
-                Text("🔄 重新开始", style = TextStyle(fontFamily = PixelFont, fontSize = 14.sp, color = Color.White))
+                Text("🔄 重新开始", style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurface))
             }
         }
     }

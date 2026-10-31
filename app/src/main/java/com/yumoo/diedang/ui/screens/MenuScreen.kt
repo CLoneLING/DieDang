@@ -12,20 +12,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yumoo.diedang.ui.theme.PixelFont
+import com.yumoo.diedang.settings.APP_VERSION
+import com.yumoo.diedang.ui.theme.LocalStoryFont
 
 const val APP_NAME = "跌宕"
-const val APP_VERSION = "2.0.0"
 
 /** 主菜单：只做导航，不承载任何剧本知识。 */
 @Composable
@@ -33,10 +33,12 @@ fun MenuScreen(
     lastStoryTitle: String?,
     onContinue: () -> Unit,
     onStories: () -> Unit,
-    onAbout: () -> Unit
+    onAbout: () -> Unit,
+    onSettings: () -> Unit
 ) {
+    val colors = MaterialTheme.colorScheme
     Box(
-        modifier = Modifier.fillMaxSize().background(Color(0xFF1A1A1A)),
+        modifier = Modifier.fillMaxSize().background(colors.background),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -46,12 +48,17 @@ fun MenuScreen(
         ) {
             Text(
                 text = "📖 $APP_NAME",
-                style = TextStyle(fontFamily = PixelFont, fontSize = 44.sp, color = Color.White, letterSpacing = 8.sp)
+                style = TextStyle(
+                    fontFamily = LocalStoryFont.current,
+                    fontSize = 44.sp,
+                    color = colors.onBackground,
+                    letterSpacing = 8.sp
+                )
             )
             Spacer(Modifier.height(12.dp))
             Text(
                 text = "选择取向型剧情游戏合集",
-                style = TextStyle(fontFamily = PixelFont, fontSize = 14.sp, color = Color.Gray)
+                style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 14.sp, color = colors.onSurfaceVariant)
             )
             Spacer(Modifier.height(56.dp))
 
@@ -65,12 +72,14 @@ fun MenuScreen(
             }
             PrimaryButton(label = "📚 剧本列表", width = 220.dp, onClick = onStories)
             Spacer(Modifier.height(16.dp))
+            SecondaryButton(label = "⚙️ 设置", width = 180.dp, onClick = onSettings)
+            Spacer(Modifier.height(12.dp))
             SecondaryButton(label = "ℹ️ 关于", width = 180.dp, onClick = onAbout)
 
             Spacer(Modifier.height(48.dp))
             Text(
                 text = "v$APP_VERSION",
-                style = TextStyle(fontFamily = PixelFont, fontSize = 12.sp, color = Color(0xFF555555))
+                style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 12.sp, color = colors.outline)
             )
         }
     }
@@ -78,24 +87,30 @@ fun MenuScreen(
 
 @Composable
 fun PrimaryButton(label: String, width: Dp, onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE)),
+        colors = ButtonDefaults.buttonColors(containerColor = colors.primary, contentColor = colors.onPrimary),
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier.width(width).height(56.dp)
     ) {
-        Text(label, style = TextStyle(fontFamily = PixelFont, fontSize = 16.sp, color = Color.White), textAlign = TextAlign.Center)
+        Text(
+            label,
+            style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 16.sp, color = colors.onPrimary),
+            textAlign = TextAlign.Center
+        )
     }
 }
 
 @Composable
 fun SecondaryButton(label: String, width: Dp, onClick: () -> Unit) {
+    val colors = MaterialTheme.colorScheme
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2A2A2A)),
+        colors = ButtonDefaults.buttonColors(containerColor = colors.surfaceVariant, contentColor = colors.onSurface),
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier.width(width).height(44.dp)
     ) {
-        Text(label, style = TextStyle(fontFamily = PixelFont, fontSize = 14.sp, color = Color.White))
+        Text(label, style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 14.sp, color = colors.onSurface))
     }
 }

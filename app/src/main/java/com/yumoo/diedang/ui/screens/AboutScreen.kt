@@ -19,11 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.yumoo.diedang.ui.theme.PixelFont
+import com.yumoo.diedang.settings.APP_VERSION
+import com.yumoo.diedang.ui.theme.LocalStoryFont
 
 /** 关于页：应用信息 + 引擎能力说明（改版后不再展示单个剧本的硬编码信息）。 */
 @Composable
@@ -32,16 +33,16 @@ fun AboutScreen(onBack: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF1A1A1A))
+            .background(MaterialTheme.colorScheme.background)
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
         Row {
             TextButton(onClick = onBack) {
-                Text("← 返回", style = TextStyle(fontFamily = PixelFont, fontSize = 14.sp, color = Color.Gray))
+                Text("← 返回", style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 14.sp, color = MaterialTheme.colorScheme.onSurfaceVariant))
             }
             Spacer(Modifier.width(8.dp))
-            Text("ℹ️ 关于", style = TextStyle(fontFamily = PixelFont, fontSize = 22.sp, color = Color.White))
+            Text("ℹ️ 关于", style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 22.sp, color = MaterialTheme.colorScheme.onSurface))
         }
         Spacer(Modifier.height(16.dp))
 
@@ -68,7 +69,7 @@ fun AboutScreen(onBack: () -> Unit) {
                     + "并在 StoryRegistry 中注册即可被引擎加载。\n"
                     + "场景文本用空行分段，引擎逐段打字机展示；"
                     + "限时场景需要提供 id = \"timeout\" 的结局场景。",
-                style = TextStyle(fontFamily = PixelFont, fontSize = 13.sp, lineHeight = 22.sp, color = Color(0xFFDDDDDD))
+                style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 13.sp, lineHeight = 22.sp, color = MaterialTheme.colorScheme.onSurface)
             )
         }
     }
@@ -79,10 +80,10 @@ private fun InfoCard(title: String, content: @Composable () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2A2A2A))
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(title, style = TextStyle(fontFamily = PixelFont, fontSize = 16.sp, color = Color.White))
+            Text(title, style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 16.sp, color = MaterialTheme.colorScheme.onSurface))
             Spacer(Modifier.height(8.dp))
             content()
         }
@@ -94,12 +95,12 @@ private fun InfoRow(label: String, value: String) {
     Row(modifier = Modifier.fillMaxWidth().padding(vertical = 3.dp)) {
         Text(
             "$label：",
-            style = TextStyle(fontFamily = PixelFont, fontSize = 13.sp, color = Color.Gray),
+            style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant),
             modifier = Modifier.width(76.dp)
         )
         Text(
             value,
-            style = TextStyle(fontFamily = PixelFont, fontSize = 13.sp, lineHeight = 22.sp, color = Color.White),
+            style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 13.sp, lineHeight = 22.sp, color = MaterialTheme.colorScheme.onSurface),
             modifier = Modifier.weight(1f)
         )
     }
