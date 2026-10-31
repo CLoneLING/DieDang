@@ -106,7 +106,7 @@ fun SettingsScreen(
         }
         Spacer(Modifier.height(8.dp))
         Text(
-            "当前版本 v$APP_VERSION · 更新包直接从 GitHub Release 下载",
+            "v$APP_VERSION",
             style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 11.sp, color = colors.onSurfaceVariant)
         )
         Spacer(Modifier.height(40.dp))

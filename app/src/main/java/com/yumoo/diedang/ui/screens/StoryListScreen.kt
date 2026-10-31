@@ -65,7 +65,7 @@ fun StoryListScreen(
         }
         Spacer(Modifier.height(12.dp))
         Text(
-            "共 ${stories.size} 个剧本 / 上传剧本功能开发中",
+            "共 ${stories.size} 个剧本",
             style = TextStyle(fontFamily = LocalStoryFont.current, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
         )
         Spacer(Modifier.height(16.dp))
